@@ -1,0 +1,52 @@
+/**
+ * @name OutSi
+ * @author AsyncMatrix
+ * @version 0.0.1
+**/
+
+import { MessageObject } from './components/types/messageObject';
+import { ActionObject } from './components/types/actionObject';
+
+import { ExtensionContext } from 'vscode';
+import { Signal } from "typed-signals";
+
+import pluginBranch from './enumeration/pluginBranch';
+
+import NetworkInterface from './components/NetworkInterface';
+import TerminalInterface from './components/TerminalInterface';
+
+
+export class ExtensionInstance {
+	name: string = "OutSi";
+	version: string = "0.0.1";
+	author: string = "AsyncMatrix";
+	description: string = "OutSi is a Roblox -> Visual Studio Code output replication tool";
+	branch: string = pluginBranch.development;
+
+	context: ExtensionContext;
+
+	networkInterface: NetworkInterface;
+	terminalInterface: TerminalInterface;
+
+	onExtensionReady: Signal<() => void> = new Signal();
+
+	onMessageReceived: Signal<(messageObject: MessageObject) => void> = new Signal();
+	onActionReceived: Signal<(actionObject: ActionObject) => void> = new Signal();
+
+	constructor(context: ExtensionContext) {
+		this.context = context;
+
+		this.networkInterface = new NetworkInterface(this);
+		this.terminalInterface = new TerminalInterface(this);
+
+		this.onExtensionReady.connect(() => console.log("Plugin Active!"));
+	}
+
+	onExtensionActivated() { this.onExtensionReady.emit(); }
+}
+
+export function activate(context: ExtensionContext) {
+	const extensionInstance: ExtensionInstance = new ExtensionInstance(context);
+
+	extensionInstance.onExtensionActivated();
+}
