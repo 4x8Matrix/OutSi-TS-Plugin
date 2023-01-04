@@ -5,7 +5,7 @@ describe("", function() {
     before(() => console.log("TestsRunner :: Initializing mocha tests!"))
 
     it("successfully compiles with the TypeScript compiler", function() {
-        execSync("pnpm build")
+        execSync("pnpm compile")
     });
 
     after(() => console.log("TestsRunner :: Mocha tests complete."))
