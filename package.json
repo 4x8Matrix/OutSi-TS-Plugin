@@ -12,14 +12,14 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm run compile && pnpm run lint",
-    "lint": "eslint source --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src --ext ts",
+    "test": "node ./dist/test/runTest.js"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

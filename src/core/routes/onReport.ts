@@ -1,6 +1,6 @@
 
 import { FastifyReply, FastifyRequest, FastifySchema, RouteGenericInterface } from "fastify";
-import { MessageObjectArray } from "../types/messageObjectArray";
+import { MessageObjectArray } from "../types/shared";
 
 import NetworkInterface from "../NetworkInterface";
 
