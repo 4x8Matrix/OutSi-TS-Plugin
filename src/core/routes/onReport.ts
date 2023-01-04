@@ -1,8 +1,8 @@
 
 import { FastifyReply, FastifyRequest, FastifySchema, RouteGenericInterface } from "fastify";
-import { MessageObjectArray } from "../types/shared";
 
 import NetworkInterface from "../NetworkInterface";
+import { MessageObject } from "../types";
 
 export const onReportSchema: FastifySchema = {
 	body: {
@@ -40,7 +40,7 @@ export const onReportSchema: FastifySchema = {
 
 export interface ReportInterface {
 	Body: {
-		messageObjectArray: MessageObjectArray
+		messageObjectArray: MessageObject[]
 	}
 }
 
@@ -48,7 +48,7 @@ export function onReport(networkInterface: NetworkInterface, request: FastifyReq
 	const { messageObjectArray } = request.body;
 
 	try {
-		messageObjectArray.forEach(messageObject => {
+		messageObjectArray.forEach((messageObject) => {
 			networkInterface.extensionInstance.onMessageReceived.emit(messageObject);
 		});
 

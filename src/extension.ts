@@ -4,7 +4,7 @@
  * @version 0.0.1
 **/
 
-import { ActionObject, MessageObject } from './core/types/shared';
+import { ActionObject, MessageObject } from './core/types';
 
 import { ExtensionContext } from 'vscode';
 import { Signal } from "typed-signals";
