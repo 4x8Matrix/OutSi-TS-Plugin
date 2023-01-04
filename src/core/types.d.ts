@@ -3,8 +3,6 @@ export type MessageObject = {
 	message: string
 };
 
-export type MessageObjectArray = MessageObject[];
-
 export type ActionObject = {
 	actionType: number
 };

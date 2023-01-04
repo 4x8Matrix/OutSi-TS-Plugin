@@ -21,7 +21,7 @@
     "lint": "eslint src --ext ts",
     "test": "mocha tests/runner.mocha.ts"
   },
-  "files" : ["*.js", "dist/", "!**/.tsbuildinfo"]
+  "files" : ["*.js", "dist/", "!**/.tsbuildinfo"],
   "devDependencies": {
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.1",

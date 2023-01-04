@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest, FastifySchema } from "fastify";
-import { ActionObject } from "../types/shared";
+import { ActionObject } from "../types";
 
 import NetworkInterface from "../NetworkInterface";
 
