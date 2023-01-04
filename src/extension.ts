@@ -4,16 +4,15 @@
  * @version 0.0.1
 **/
 
-import { MessageObject } from './components/types/messageObject';
-import { ActionObject } from './components/types/actionObject';
+import { ActionObject, MessageObject } from './core/types/shared';
 
 import { ExtensionContext } from 'vscode';
 import { Signal } from "typed-signals";
 
-import pluginBranch from './enumeration/pluginBranch';
+import { branchType as pluginBranch } from './enums/pluginBranch';
 
-import NetworkInterface from './components/NetworkInterface';
-import TerminalInterface from './components/TerminalInterface';
+import NetworkInterface from './core/NetworkInterface';
+import TerminalInterface from './core/TerminalInterface';
 
 
 export class ExtensionInstance {
