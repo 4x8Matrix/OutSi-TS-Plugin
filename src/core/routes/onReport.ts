@@ -27,9 +27,7 @@ export const onReportSchema: FastifySchema = {
 						},
 
 						message: {
-							type: "string",
-							
-							maxLength: 200
+							type: "string"
 						}
 					}
 				}
@@ -40,21 +38,23 @@ export const onReportSchema: FastifySchema = {
 
 export interface ReportInterface {
 	Body: {
-		messageObjectArray: MessageObject[]
+		batch: MessageObject[]
 	}
 }
 
 export function onReport(networkInterface: NetworkInterface, request: FastifyRequest<ReportInterface>, reply: FastifyReply) {
-	const { messageObjectArray } = request.body;
+	const { batch } = request.body;
 
 	try {
-		messageObjectArray.forEach((messageObject) => {
+		batch.forEach((messageObject) => {
 			networkInterface.extensionInstance.onMessageReceived.emit(messageObject);
 		});
 
 		reply.code(200).send({ message: "success" });
 	}
 	catch(exception) {
+		console.warn(exception);
+
 		reply.code(500).send({ message: exception });
 	}
 }
