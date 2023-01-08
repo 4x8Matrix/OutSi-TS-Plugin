@@ -1,18 +1,95 @@
 {
   "name": "outsi",
-  "displayName": "outsi",
-  "description": "",
-  "version": "0.0.1",
+  "displayName": "OutSi",
+  "description": "OutSi is a Roblox -> Visual Studio Code output replication tool",
+  "version": "0.1.0",
+  "main": "./distributable/extension.js",
+  "activationEvents": [
+    "*"
+  ],
+  "files": [
+    "*.js",
+    "distributable/",
+    "!**/.tsbuildinfo"
+  ],
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Debuggers",
+    "Visualization",
     "Other"
   ],
-  "activationEvents": [
-    "*"
-  ],
-  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "OutSi",
+      "properties": {
+        "outsi.rbx.reconnectionDelay": {
+          "type": "number",
+          "default": 2,
+          "description": "The Roblox plugin delay before making the same network request again."
+        },
+        "outsi.rbx.resourcePercent": {
+          "type": "number",
+          "default": 25,
+          "description": "The amount of networking resources used up by the Roblox plugin",
+          "maximum": 80,
+          "minimum": 10
+        },
+        "outsi.rbx.maxLogsInMemory": {
+          "type": "number",
+          "default": 50000,
+          "description": "The Roblox plugin maximum stored logs before removing the oldest entry."
+        },
+        "outsi.plugin.multiInstanceEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allows 'OutSi' to instantiate multiple vscode terminals for unique studio appearances."
+        },
+        "outsi.plugin.autoFocus": {
+          "type": "boolean",
+          "default": true,
+          "description": "When an output is received, that specific terminal window will request to be focused."
+        },
+        "outsi.plugin.outputLanguageId": {
+          "type": "string",
+          "default": "lua",
+          "description": "LanguageId for OutputChannels, the 'LanguageId' will effect how colors are applied."
+        },
+        "outsi.plugin.ignoreDuplicateMessages": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ignore duplicate roblox messages, behaviour should work the same as the Roblox Output."
+        },
+        "outsi.plugin.clearOnRunContextChanged": {
+          "type": "boolean",
+          "default": true,
+          "description": "Clear console when the games 'RunContext' has been modified"
+        },
+
+        "outsi.plugin.duplicateMessageTag": {
+          "type": "string",
+          "default": "+",
+          "description": "Tag applied before each duplicated message"
+        },
+        "outsi.plugin.informationTag": {
+          "type": "string",
+          "default": "Information",
+          "description": "Tag applied before each information message"
+        },
+        "outsi.plugin.warningTag": {
+          "type": "string",
+          "default": "Warning",
+          "description": "Tag applied before each warning message"
+        },
+        "outsi.plugin.errorTag": {
+          "type": "string",
+          "default": "Error",
+          "description": "Tag applied before each error message"
+        }
+      }
+    }
+  },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
@@ -21,7 +98,6 @@
     "lint": "eslint src --ext ts",
     "test": "mocha tests/runner.mocha.ts"
   },
-  "files" : ["*.js", "dist/", "!**/.tsbuildinfo"],
   "devDependencies": {
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.1",
