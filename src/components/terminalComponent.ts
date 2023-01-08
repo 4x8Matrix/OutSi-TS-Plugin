@@ -72,6 +72,8 @@ export default class {
 	onMessageLogReceived(robloxLogObject: robloxLogObject) {
 		let sessionObject: terminalSession = this.getSession(robloxLogObject.MessageOutputChannelId);
 
+		let logTag: string | undefined = workspace.getConfiguration("outsi.plugin").get("logTag");
+
 		let errorTag: string | undefined = workspace.getConfiguration("outsi.plugin").get("errorTag");
 		let warningTag: string | undefined = workspace.getConfiguration("outsi.plugin").get("warningTag");
 		let informationTag: string | undefined = workspace.getConfiguration("outsi.plugin").get("informationTag");
@@ -85,7 +87,13 @@ export default class {
 			let messageResolve: string = robloxLogObject.Message;
 			let timeString = new Date().toLocaleTimeString();
 
+			console.log(robloxLogObject.MessageType);
+
 			switch (robloxLogObject.MessageType) {
+				case 0:
+					messageResolve = `[${timeString}][${logTag}]: '${robloxLogObject.Message}'`;
+	
+					break;
 				case 1:
 					messageResolve = `[${timeString}][${informationTag}]: '${robloxLogObject.Message}'`;
 	
