@@ -21,6 +21,11 @@ This extensions configuration also has the ability to configure the Studio Plugi
 ---
 ## Update Log
 
+### 0.1.1
+- Extension package manager: PNPM -> NPM
+- Added Extension to Visual Studio Marketplace
+- Implementation of additional assets for VSCE
+
 ### 0.1.0
 - Refactored prototype build
 - Implementation of defined extension & plugin structure
