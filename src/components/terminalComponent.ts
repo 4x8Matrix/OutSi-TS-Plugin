@@ -91,15 +91,15 @@ export default class {
 
 			switch (robloxLogObject.MessageType) {
 				case 0:
-					messageResolve = `[${timeString}][${logTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${logTag}]: ${robloxLogObject.Message}`;
 	
 					break;
 				case 1:
-					messageResolve = `[${timeString}][${informationTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${informationTag}]: ${robloxLogObject.Message}`;
 	
 					break;
 				case 2:
-					messageResolve = `[${timeString}][${warningTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${warningTag}]: ${robloxLogObject.Message}`;
 
 					break;
 				case 3:
