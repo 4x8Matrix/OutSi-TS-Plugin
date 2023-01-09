@@ -66,7 +66,7 @@ export default class {
 			message = message.split(illegalString).join("");
 		});
 
-		return message;
+		return message.split("\n").join("\n ");
 	}
 
 	onPluginSettingsUpdated() {
@@ -124,6 +124,7 @@ export default class {
 				if (robloxLogObject.MessageType === 3) { return; }
 
 				messageResolve = `[${duplicateMessageTag}] ` + messageResolve;
+				messageResolve = " " + messageResolve.split("\n").join("\n ");
 			}
 
 			sessionObject.sessionTerminal.appendLine(messageResolve);
