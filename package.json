@@ -2,7 +2,7 @@
   "name": "outsi",
   "displayName": "OutSi",
   "description": "OutSi is a Roblox -> Visual Studio Code output replication tool",
-  "version": "0.1.13",
+  "version": "0.1.2",
   "publisher": "AsyncMatrix",
   "main": "./distributable/extension.js",
   "icon": "assets/icon.png",
