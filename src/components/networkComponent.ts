@@ -30,7 +30,7 @@ export default class {
 		this.statusBarItem.text = "$(warning) OutSi";
 		this.statusBarItem.command = "outsi.plugin.startServer";
 
-		this.postConstructorStep();
+		this.instantiateFastifyRoutes();
 
 		this.extensionInstance.onExtensionActivated.connect(() => { this.onExtensionActivated(); });
 		this.extensionInstance.onExtensionDeactivated.connect(() => { this.onExtensionDeactivated(); });
@@ -42,13 +42,16 @@ export default class {
 	
 			commands.registerCommand("outsi.plugin.stopServer", () => {
 				this.serverInstance.close();
+				this.serverInstance = fastify();
+
+				this.instantiateFastifyRoutes();
 	
 				this.statusBarItem.show();
 			})
 		];
 	}
 
-	postConstructorStep() {
+	instantiateFastifyRoutes() {
 		let networkComponent: this = this;
 
 		this.serverInstance.get("/api/v1/identify", {
