@@ -1,4 +1,5 @@
 import { default as fastify, FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { window, commands, StatusBarAlignment, StatusBarItem, Disposable } from "vscode";
 import { ExtensionInstance } from "../instance";
 
 import { serverAddress, serverPort } from "../configuration/serverConfiguration";
@@ -12,22 +13,45 @@ import action from "../api/v1/event/action";
 import upload from "../api/v1/event/upload";
 import identify from "../api/v1/identify";
 import settings from "../api/v1/settings";
-
 export default class {
 	extensionInstance: ExtensionInstance;
 	serverInstance: FastifyInstance;
 
+	statusBarItem: StatusBarItem;
+	disposableCommands: Disposable[];
+
 	constructor(extensionInstance: ExtensionInstance) {
 		this.extensionInstance = extensionInstance;
 		this.serverInstance = fastify();
+		this.statusBarItem = window.createStatusBarItem(
+			StatusBarAlignment.Right, 200
+		);
 
-		this.postConstructorStep();
+		this.statusBarItem.text = "$(warning) OutSi";
+		this.statusBarItem.command = "outsi.plugin.startServer";
+
+		this.instantiateFastifyRoutes();
 
 		this.extensionInstance.onExtensionActivated.connect(() => { this.onExtensionActivated(); });
 		this.extensionInstance.onExtensionDeactivated.connect(() => { this.onExtensionDeactivated(); });
+	
+		this.disposableCommands = [
+			commands.registerCommand("outsi.plugin.startServer", () => {
+				this.onExtensionActivated();
+			}),
+	
+			commands.registerCommand("outsi.plugin.stopServer", () => {
+				this.serverInstance.close();
+				this.serverInstance = fastify();
+
+				this.instantiateFastifyRoutes();
+	
+				this.statusBarItem.show();
+			})
+		];
 	}
 
-	postConstructorStep() {
+	instantiateFastifyRoutes() {
 		let networkComponent: this = this;
 
 		this.serverInstance.get("/api/v1/identify", {
@@ -51,6 +75,22 @@ export default class {
 		});
 	}
 
-	onExtensionActivated() { this.serverInstance.listen({ host: serverAddress, port: serverPort }); }
-	onExtensionDeactivated() { this.serverInstance.close(); }
+	onExtensionActivated() {
+		this.serverInstance.listen({ host: serverAddress, port: serverPort }).then(() => {
+			this.statusBarItem.hide();
+		}).catch((reason: string) => {
+			window.showWarningMessage("OutSi Server has not been started; Refer to 'Output' channels for more information.");
+			console.warn(reason);
+
+			this.statusBarItem.show();
+		});
+	}
+	onExtensionDeactivated() {
+		this.serverInstance.close();
+		this.statusBarItem.dispose();
+
+		this.disposableCommands.forEach((disposableObject: Disposable) => {
+			disposableObject.dispose();
+		});
+	}
 }
