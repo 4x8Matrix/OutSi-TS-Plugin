@@ -117,12 +117,6 @@ export default class {
 				case 3:
 					messageResolve = `[${timeString}][${errorTag}]: '${messageResolve}'`;
 
-					if (robloxLogObject.StackTrace) {
-						robloxLogObject.StackTrace.split("\n").forEach((splitString) => {
-							messageResolve += "\n " + splitString;
-						});
-					}
-
 					break;
 			}
 

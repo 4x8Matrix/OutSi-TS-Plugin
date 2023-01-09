@@ -9,6 +9,4 @@ export type robloxLogObject = {
 	RepeatCount: number,
 
 	MessageOutputChannelId: string,
-	FilePath?: string,
-	StackTrace?: string
 }
