@@ -2,7 +2,7 @@
   "name": "outsi",
   "displayName": "OutSi",
   "description": "OutSi is a Roblox -> Visual Studio Code output replication tool",
-  "version": "0.1.1",
+  "version": "0.1.13",
   "publisher": "AsyncMatrix",
   "main": "./distributable/extension.js",
   "icon": "assets/icon.png",
@@ -27,6 +27,17 @@
     "url": "https://github.com/4x8Matrix/OutSi-TS-Plugin"
   },
   "contributes": {
+    "commands": [
+      {
+        "title": "OutSi: Start the Local Server",
+        "command": "outsi.plugin.startServer"
+      },
+      {
+        "title": "OutSi: Stop the Local Server",
+        "command": "outsi.plugin.stopServer"
+      }
+    ],
+
     "configuration": {
       "title": "OutSi",
       "properties": {
@@ -120,9 +131,12 @@
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mocha": "^10.2.0",
+    "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.3",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "fastify": "^4.11.0",
