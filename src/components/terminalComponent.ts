@@ -4,6 +4,10 @@ import { workspace, window } from "vscode";
 import { terminalSession } from "../types/terminalTypes";
 import { robloxLogObject, robloxActionObject } from "../types/robloxTypes";
 
+const illegalStringMutations: string[] = [
+	"'", "\""
+];
+
 export default class {
 	extensionInstance: ExtensionInstance;
 
@@ -55,6 +59,14 @@ export default class {
 		return terminalSessionInstance;
 	}
 
+	sanitizeMessage(message: string) {
+		illegalStringMutations.forEach((illegalString: string) => {
+			message = message.split(illegalString).join("");
+		});
+
+		return message;
+	}
+
 	onPluginSettingsUpdated() {
 		let multiInstanceEnabled: boolean | undefined = workspace.getConfiguration("outsi.plugin").get("multiInstanceEnabled");
 
@@ -84,26 +96,24 @@ export default class {
 		if (ignoreDuplicateMessages) { robloxLogObject.RepeatCount = 0; }
 
 		for (let messageIndex = 0; messageIndex < (robloxLogObject.RepeatCount + 1); messageIndex++) {
-			let messageResolve: string = robloxLogObject.Message;
+			let messageResolve: string = this.sanitizeMessage(robloxLogObject.Message);
 			let timeString = new Date().toLocaleTimeString();
-
-			console.log(robloxLogObject.MessageType);
 
 			switch (robloxLogObject.MessageType) {
 				case 0:
-					messageResolve = `[${timeString}][${logTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${logTag}]: ${messageResolve}`;
 	
 					break;
 				case 1:
-					messageResolve = `[${timeString}][${informationTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${informationTag}]: ${messageResolve}`;
 	
 					break;
 				case 2:
-					messageResolve = `[${timeString}][${warningTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${warningTag}]: ${messageResolve}`;
 
 					break;
 				case 3:
-					messageResolve = `[${timeString}][${errorTag}]: '${robloxLogObject.Message}'`;
+					messageResolve = `[${timeString}][${errorTag}]: '${messageResolve}'`;
 
 					if (robloxLogObject.StackTrace) {
 						robloxLogObject.StackTrace.split("\n").forEach((splitString) => {
