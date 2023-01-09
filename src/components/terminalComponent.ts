@@ -54,7 +54,9 @@ export default class {
 		
 		this.existingSessions.push(terminalSessionInstance);
 
-		if (autoFocus) { terminalSessionInstance.sessionTerminal.show(); }
+		if (autoFocus) {
+			terminalSessionInstance.sessionTerminal.show(true);
+		}
 
 		return terminalSessionInstance;
 	}
@@ -131,7 +133,7 @@ export default class {
 			}
 
 			sessionObject.sessionTerminal.appendLine(messageResolve);
-			sessionObject.sessionTerminal.show();
+			sessionObject.sessionTerminal.show(true);
 		}
 
 		sessionObject.lastMessage = robloxLogObject.Message;
