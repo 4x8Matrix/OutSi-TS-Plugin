@@ -33,7 +33,7 @@ export default class {
 		this.instantiateFastifyRoutes();
 
 		this.extensionInstance.onExtensionActivated.connect(() => { this.onExtensionActivated(); });
-		this.extensionInstance.onExtensionDeactivated.connect(() => { this.onExtensionDeactivated(); });
+		// this.extensionInstance.onExtensionDeactivated.connect(() => { this.onExtensionDeactivated(); });
 	
 		this.disposableCommands = [
 			commands.registerCommand("outsi.plugin.startServer", () => {
@@ -85,12 +85,14 @@ export default class {
 			this.statusBarItem.show();
 		});
 	}
-	onExtensionDeactivated() {
-		this.serverInstance.close();
-		this.statusBarItem.dispose();
+	// This will now be handled by the controlComponent.
 
-		this.disposableCommands.forEach((disposableObject: Disposable) => {
-			disposableObject.dispose();
-		});
-	}
+	// onExtensionDeactivated() {
+	// 	this.serverInstance.close();
+	// 	this.statusBarItem.dispose();
+
+	// 	this.disposableCommands.forEach((disposableObject: Disposable) => {
+	// 		disposableObject.dispose();
+	// 	});
+	// }
 }
