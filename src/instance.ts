@@ -7,6 +7,8 @@ import { robloxLogObject, robloxActionObject } from "./types/robloxTypes";
 import NetworkComponent from "./components/networkComponent";
 import TerminalComponent from "./components/terminalComponent";
 
+import InitializeServer from "./modules/initializeServer"
+
 export class ExtensionInstance {
 	branch: branch = branch.development;
 
@@ -14,8 +16,8 @@ export class ExtensionInstance {
 
 	context: ExtensionContext;
 
-	networkComponent: NetworkComponent;
-	terminalComponent: TerminalComponent;
+	networkComponent?: NetworkComponent;
+	terminalComponent?: TerminalComponent;
 
 	onExtensionActivated: Signal<() => void> = new Signal();
 	onExtensionDeactivated: Signal<() => void> = new Signal();
@@ -26,9 +28,10 @@ export class ExtensionInstance {
 	constructor(context: ExtensionContext) {
 		this.context = context;
 
-		this.networkComponent = new NetworkComponent(this);
-		this.terminalComponent = new TerminalComponent(this);
- 
-		this.onExtensionActivated.connect(() => console.log("Plugin Active!"));
+		InitializeServer(this).then(() => {
+			this.terminalComponent = new TerminalComponent(this);
+
+			this.onExtensionActivated.connect(() => console.log("Plugin Active!"));
+		})
 	}
 }
