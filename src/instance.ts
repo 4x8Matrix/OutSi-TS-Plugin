@@ -6,8 +6,9 @@ import { robloxLogObject, robloxActionObject } from "./types/robloxTypes";
 
 import NetworkComponent from "./components/networkComponent";
 import TerminalComponent from "./components/terminalComponent";
-import { ChildProcess, spawn } from "child_process";
-import path = require("path");
+
+import { spawn } from "child_process";
+import * as path from "path"
 
 export class ExtensionInstance {
 	branch: branch = branch.development;
